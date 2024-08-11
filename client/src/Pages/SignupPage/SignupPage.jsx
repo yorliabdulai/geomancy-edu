@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
-import axios from 'axios';
+import { auth } from '../../firebaseConfig'; // Import the Firebase auth module
+import { createUserWithEmailAndPassword } from 'firebase/auth'; // Import the createUserWithEmailAndPassword function
 
 const FormBox = styled.div`
   display: flex;
@@ -39,19 +40,30 @@ const SignupPage = () => {
   };
 
   const [formdata, setFormdata] = useState(init);
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormdata({ ...formdata, [name]: value });
   };
 
-  const handleSignup = () => {
-    axios
-      .post('http://localhost:5000/user/signup', formdata)
-      .then((res) => console.log(res))
-      .catch((err) => console.error(err));
+  const handleSignup = async () => {
+    const { email, password } = formdata;
 
-    setFormdata(init);
+    try {
+      // Create a new user with Firebase Authentication
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      
+      // You can store additional user data in Firestore if needed
+      // For example: addUserToFirestore(user.uid, formdata);
+
+      console.log('User created:', user.uid);
+      setFormdata(init); // Reset the form data
+    } catch (error) {
+      console.error('Error signing up:', error.message);
+      setError(error.message);
+    }
   };
 
   return (
@@ -97,6 +109,7 @@ const SignupPage = () => {
         <Button onClick={handleSignup} variant="contained" color="primary">
           Create my Account!
         </Button>
+        {error && <p>{error}</p>}
       </FormBox>
     </div>
   );
