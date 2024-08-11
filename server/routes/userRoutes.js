@@ -45,7 +45,11 @@ router.post("/login", async (req, res) => {
 // Update user credentials
 router.put("/:id", async (req, res) => {
   const id = req.params.id;
-
+  // Validate ObjectId
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: "Invalid ID format" });
+  }
+  
   try {
     if (req.body.password) {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
