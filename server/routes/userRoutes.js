@@ -2,6 +2,8 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const router = express.Router();
 const User = require("../models/User");
+const mongoose = require("mongoose");
+
 
 // Signup user
 router.post("/signup", async (req, res) => {
@@ -49,7 +51,7 @@ router.put("/:id", async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({ error: "Invalid ID format" });
   }
-  
+
   try {
     if (req.body.password) {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
