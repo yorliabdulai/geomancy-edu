@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
-import { auth } from '../../utils/firebaseConfig'; // Import the Firebase auth module
+import { auth } from '../../utils/firebase'; // Import the Firebase auth module
 import { createUserWithEmailAndPassword } from 'firebase/auth'; // Import the createUserWithEmailAndPassword function
 
 const FormBox = styled.div`
