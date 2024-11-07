@@ -3,7 +3,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
 import { auth } from '../../utils/firebase'; // Import the Firebase auth module
-import { createUserWithEmailAndPassword } from 'firebase/auth'; // Import the createUserWithEmailAndPassword function
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 const FormBox = styled.div`
   display: flex;
